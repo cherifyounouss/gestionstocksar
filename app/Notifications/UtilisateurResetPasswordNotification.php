@@ -45,7 +45,7 @@ class UtilisateurResetPasswordNotification extends Notification
     {
         return (new MailMessage)
                     ->line('Bonjour, cet email vous permettra de r&eacute;initialiser votre mot de passe')
-                    ->action('R&eacuteinitialiser mot de passe', url('/'))
+                    ->action('R&eacuteinitialiser mot de passe', url('utilisateur/reset', $this->token))
                     ->line('Si vous n\'avez pas demand&eacute; ceci, veuillez ignorez ce message');
     }
 
