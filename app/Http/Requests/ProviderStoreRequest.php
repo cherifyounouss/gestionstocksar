@@ -25,7 +25,8 @@ class ProviderStoreRequest extends FormRequest
     {
         return [
             'nom_fournisseur' => 'required|min:2',
-            'adresse' => 'required'
+            'adresse' => 'required',
+            'num_tel' => 'numeric'
         ];
     }
 
@@ -39,7 +40,8 @@ class ProviderStoreRequest extends FormRequest
         return [
             'nom_fournisseur.required' => 'Veuillez entrer le nom du fournisseur',
             'adresse.required' => 'Veuillez entrer l\'adresse du fournisseur',
-            'nom_fournisseur.min' => 'Veuillez entrer un nom valide de fournisseur'
+            'nom_fournisseur.min' => 'Veuillez entrer un nom valide de fournisseur',
+            'num_tel.numeric' => 'Veuillez entrer un numero de telephone valide'
         ];
     }
 }
