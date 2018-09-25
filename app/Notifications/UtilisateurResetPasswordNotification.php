@@ -44,8 +44,12 @@ class UtilisateurResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Bonjour, cet email vous permettra de r&eacute;initialiser votre mot de passe')
-                    ->action('R&eacuteinitialiser mot de passe', url('utilisateur/reset', $this->token))
+                    ->from('labo@sar.com')
+                    ->subject('Réinitialisation de mot de passe')
+                    ->greeting('Bonjour !')
+                    ->line('Cet email vous permettra de réinitialiser votre mot de passe,')
+                    ->line('Veuillez cliquer sur le boutton ci-dessous')
+                    ->action('Réinitialiser mot de passe', url('utilisateur/reset', $this->token))
                     ->line('Si vous n\'avez pas demand&eacute; ceci, veuillez ignorez ce message');
     }
 
