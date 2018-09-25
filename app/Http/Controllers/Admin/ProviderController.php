@@ -110,14 +110,14 @@ class ProviderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        echo $id;
-        die;
+        $data = $request->all();
+        //On recupere l'id du fournisseur a supprimer
+        $id = $data['id'];
         $fournisseur = Fournisseur::findOrFail($id);
         $fournisseur->delete();
-        $successMessage = "Le fournisseur a été supprimé avec succès";
-        return redirect('/liste_fournisseur')->with('successMessage',$successMessage);
+        return "success";
     }
 
 }
