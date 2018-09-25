@@ -35,4 +35,4 @@ Route::post('/ajouter_fournisseur', 'Admin\ProviderController@store');
 Route::get('/liste_fournisseur', 'Admin\ProviderController@index');
 Route::get('/modifier_fournisseur/{id}', 'Admin\ProviderController@edit');
 Route::post('/modifier_fournisseur/{id}', 'Admin\ProviderController@update');
-Route::post('/supprimer_fournisseur/{id}','Admin\ProviderController@destroy');
+Route::post('/supprimer_fournisseur','Admin\ProviderController@destroy');
