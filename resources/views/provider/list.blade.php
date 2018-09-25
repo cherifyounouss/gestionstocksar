@@ -51,30 +51,9 @@
                         <form action="{{url('/modifier_fournisseur',$fournisseur->id)}}">
                             <button type="submit" class="btn btn-cyan btn-sm">Modifier</button>
                         </form>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Modal2">Supprimer</button>
-                    </td>
-                    <div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Suppression du fournisseur</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    Voulez-vous vraiment supprimer ce fournisseur...?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                                    <form action="{{url('/supprimer_fournisseur',$fournisseur->id)}}" method="POST">
-                                        {{csrf_field()}}
-                                        <button type="submit" class="btn btn-primary">Confirmer</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                    
+                        <input type="hidden">
+                        <button type="button" onclick="test({{ $fournisseur->id}})" class="btn btn-danger btn_delete btn-sm" data-toggle="modal">Supprimer</button>
+                    </td>                  
                 </tr>
                 @endforeach
             </tbody>
@@ -88,7 +67,25 @@
                 </tr>
             </tfoot>
         </table>
-       
+        <div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Suppression du fournisseur</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Voulez-vous vraiment supprimer ce fournisseur...?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </div>        
 </div>
 @endsection
 @section('scripts')
@@ -98,5 +95,24 @@
         *       Basic Table                   *
         ****************************************/
     $('#provider_table').DataTable();
+    const APP_NAME = "localhost/stockLaboSAR/public";
+
+   
+    function test(id){
+        if(confirm("Voulez-vous vraiment supprimer ce fournisseur ?")){
+            /*$.post(APP_NAME+"/supprimer_fournisseur",id: id, _token: {{ csrf_token() }}, function(){
+                alert('YESSSSSSS');
+            });*/
+            $.ajax({
+                method: "POST",
+                url: "{{url('/supprimer_fournisseur')}}",
+                data: {id: id, _token: "{{ csrf_token() }}"},
+            }).done(function(response) {
+                if(response == "success"){
+                    location.reload(true);
+                }
+            })
+        }
+    }
 </script>
 @endsection
