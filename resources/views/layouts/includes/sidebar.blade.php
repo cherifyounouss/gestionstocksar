@@ -19,15 +19,9 @@
                 </li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect has-arrow waves-dark sidebar-link" href="charts.html" aria-expanded="false"><i class="mdi mdi-format-list-bulleted-type"></i><span class="hide-menu">G&eacute;rer fournisseurs</span></a>
                     <ul aria-expanded="false" class="collapse  first-level">
-                            <li class="sidebar-item"><a href="form-basic.html" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Ajouter un nouveau fournisseur </span></a></li>
-                            <li class="sidebar-item"><a href="form-wizard.html" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Liste des fournisseurs </span></a></li>
+                            <li class="sidebar-item"><a href="{{url('/ajouter_fournisseur')}}" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Ajouter un nouveau fournisseur </span></a></li>
+                            <li class="sidebar-item"><a href="{{url('/liste_fournisseur')}}" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Liste des fournisseurs </span></a></li>
                     </ul>
-                </li>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item"><a href="form-basic.html" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Form Basic </span></a></li>
-                        <li class="sidebar-item"><a href="form-wizard.html" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Form Wizard </span></a></li>
-                    </ul>
-                </li>
             </ul>
         </nav>
         <!-- End Sidebar navigation -->
