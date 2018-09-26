@@ -40,3 +40,10 @@ Route::post('/supprimer_fournisseur','Admin\ProviderController@destroy');
 //Utilisateur
 Route::get('/ajouter_utilisateur', 'Admin\UserController@create');
 Route::post('/ajouter_utilisateur', 'Admin\UserController@store');
+
+//Etagere
+Route::get('/stock/ajouter_etagere', 'Admin\EtagereController@create');
+Route::post('/stock/ajouter_etagere', 'Admin\EtagereController@store');
+Route::get('/stock/liste_etagere', 'Admin\EtagereController@index');
+Route::get('/stock/modifier_etagere/{id}', 'Admin\EtagereController@edit');
+Route::post('/stock/modifier_etagere/{id}', 'Admin\EtagereController@update');
