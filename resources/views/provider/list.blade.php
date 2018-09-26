@@ -27,7 +27,7 @@
             {{session('successMessage')}}
         </div>        
     @endif
-    <h5 class="card-title">Liste des fournisseurs</h5>
+    <h5 class="card-title" id="liste_title">Liste des fournisseurs</h5>
     <div class="table-responsive">
         <table id="provider_table" class="table table-striped table-bordered">
             <thead>
@@ -91,6 +91,15 @@
 @section('scripts')
 <script src="{{asset('assets/extra-libs/DataTables/datatables.min.js')}}"></script>
 <script>
+
+    $(document).ready(function(){
+        //On affiche une notification de suppression si la variable de notification de suppression existe
+        if(sessionStorage.getItem('messageSuppression')){
+            $('<div class="alert alert-success" role="alert">'+sessionStorage.getItem('messageSuppression')+'</div>').insertBefore($('#liste_title'));
+            sessionStorage.removeItem('messageSuppression');
+        }
+    })
+
     /****************************************
         *       Basic Table                   *
         ****************************************/
@@ -100,15 +109,15 @@
    
     function test(id){
         if(confirm("Voulez-vous vraiment supprimer ce fournisseur ?")){
-            /*$.post(APP_NAME+"/supprimer_fournisseur",id: id, _token: {{ csrf_token() }}, function(){
-                alert('YESSSSSSS');
-            });*/
+            //Requete post envoyé au controlleur pour pouvoir supprimer un fournisseur
             $.ajax({
                 method: "POST",
                 url: "{{url('/supprimer_fournisseur')}}",
                 data: {id: id, _token: "{{ csrf_token() }}"},
             }).done(function(response) {
                 if(response == "success"){
+                    //On crée une variable afin de contenir la notification de suppression
+                    sessionStorage.setItem('messageSuppression','Le fournisseur a été supprimé');
                     location.reload(true);
                 }
             })
