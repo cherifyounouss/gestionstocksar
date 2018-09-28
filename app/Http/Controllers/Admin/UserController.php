@@ -16,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $utilisateurs = Utilisateur::all();
+        return view('user.list')->with(compact('utilisateurs'));
     }
 
     /**
@@ -90,8 +91,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $data = $request->all();
+        $id = $data['id'];
+        $utilisateur = Utilisateur::findOrFail($id);
+        $utilisateur->delete();
+        return "success";
     }
 }
