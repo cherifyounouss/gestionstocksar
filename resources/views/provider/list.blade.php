@@ -24,6 +24,7 @@
   <div class="card-body">
     @if(Session::has('successMessage'))
         <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>        
             {{session('successMessage')}}
         </div>        
     @endif
@@ -48,7 +49,7 @@
                     <td>{{$fournisseur->num_tel}}</td>
                     <td>
                         {{--  On transmet l'id du fournisseur a modifier au controlleur via l'url  --}}
-                        <form action="{{url('/modifier_fournisseur',$fournisseur->id)}}">
+                        <form action="{{url('/modifier_fournisseur',$fournisseur->id)}}" style="display: inline">
                             <button type="submit" class="btn btn-cyan btn-sm">Modifier</button>
                         </form>
                         <input type="hidden">
@@ -95,7 +96,7 @@
     $(document).ready(function(){
         //On affiche une notification de suppression si la variable de notification de suppression existe
         if(sessionStorage.getItem('messageSuppression')){
-            $('<div class="alert alert-success" role="alert">'+sessionStorage.getItem('messageSuppression')+'</div>').insertBefore($('#liste_title'));
+            $('<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+sessionStorage.getItem('messageSuppression')+'</div>').insertBefore($('#liste_title'));
             sessionStorage.removeItem('messageSuppression');
         }
     })
