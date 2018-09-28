@@ -40,6 +40,8 @@ Route::post('/supprimer_fournisseur','Admin\ProviderController@destroy');
 //Utilisateur
 Route::get('/ajouter_utilisateur', 'Admin\UserController@create');
 Route::post('/ajouter_utilisateur', 'Admin\UserController@store');
+Route::get('/liste_utilisateur', 'Admin\UserController@index');
+Route::post('/supprimer_utilisateur', 'Admin\UserController@destroy');
 
 //Etagere
 Route::get('/stock/ajouter_etagere', 'Admin\EtagereController@create');
@@ -47,3 +49,11 @@ Route::post('/stock/ajouter_etagere', 'Admin\EtagereController@store');
 Route::get('/stock/liste_etagere', 'Admin\EtagereController@index');
 Route::get('/stock/modifier_etagere/{id}', 'Admin\EtagereController@edit');
 Route::post('/stock/modifier_etagere/{id}', 'Admin\EtagereController@update');
+Route::post('/stock/supprimer_etagere', 'Admin\EtagereController@destroy');
+
+//Produit
+Route::get('/stock/ajouter_produit', 'Admin\ProductController@create');
+
+//Unite
+Route::post('/stock/ajouter_unite', 'Admin\UniteController@store');
+Route::get('/stock/unites', 'Admin\UniteController@unite_ajax');
