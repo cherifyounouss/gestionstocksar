@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\BaseController;
 use App\Unite;
 
-class UniteController extends Controller
+class UniteController extends BaseController
 {
     /**
      * Display a listing of the resource.
