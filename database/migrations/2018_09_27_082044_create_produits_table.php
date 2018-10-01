@@ -30,6 +30,10 @@ class CreateProduitsTable extends Migration
             $table->decimal('qte_min', 8, 2);	
             //unite de stockage
             $table->string('unite');
+            //etagere ou se trouve le produit
+            $table->string('etagere',10);
+            //numero de casier
+            $table->integer('casier');
             //fiche de donnees securites
             $table->string('fds',100);
             //Date d'expiration de la fiche de donnees securites
