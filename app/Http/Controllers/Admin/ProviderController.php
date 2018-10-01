@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\ProviderStoreRequest;
 use App\Fournisseur;
 
-class ProviderController extends Controller
+class ProviderController extends BaseController
 {
     /**
      * Display a listing of the resource.
