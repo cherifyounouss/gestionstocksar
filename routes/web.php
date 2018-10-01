@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
+Route::get('/','Admin\EtagereController@listeEtagere');
+Route::get('/dashboard', 'Admin\EtagereController@listeEtagere');
 
 Auth::routes();
 
@@ -53,6 +52,9 @@ Route::post('/stock/supprimer_etagere', 'Admin\EtagereController@destroy');
 
 //Produit
 Route::get('/stock/ajouter_produit', 'Admin\ProductController@create');
+Route::post('/stock/ajouter_produit', 'Admin\ProductController@store');
+Route::get('/stock/liste_produit', 'Admin\ProductController@index');
+Route::get('/view_file/{fds}','Admin\ProductController@view_file');
 
 //Unite
 Route::post('/stock/ajouter_unite', 'Admin\UniteController@store');
