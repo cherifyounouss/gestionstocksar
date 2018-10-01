@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\EtagereRequest;
 use App\Etagere;
 
-class EtagereController extends Controller
+class EtagereController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +18,7 @@ class EtagereController extends Controller
     public function index()
     {
         $etageres = Etagere::all();
-        return view('stock.etagere.list')->with(compact('etageres'));
+        return view('stock.etagere.list');
     }
 
     /**
@@ -108,5 +109,10 @@ class EtagereController extends Controller
         $etagere->delete();
         return "success";
 
+    }
+
+    public function listeEtagere(){
+        $etageres = Etagere::all();
+        return view('dashboard');
     }
 }
