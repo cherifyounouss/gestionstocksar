@@ -116,3 +116,5 @@ class EtagereController extends BaseController
         return view('dashboard');
     }
 }
+
+// Stock actuel, stock minimale, date_peremption, etat
