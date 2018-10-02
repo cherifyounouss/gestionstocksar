@@ -93,7 +93,14 @@ class ProductController extends BaseController
      */
     public function edit($id)
     {
-        //
+        $produit = Produit::findOrFail($id);
+        $produit = json_decode($produit);
+        $produit->date_peremption = date("d-m-Y", strtotime($produit->date_peremption));
+        $produit->date_exp_fds = date('d-m-Y', strtotime($produit->date_exp_fds));
+        // $produit->date_peremption = DateTime::format('d-m-Y', $produit->date_peremption);
+        // $produit->date_exp_fds = DateTime::createFromFormat('d-m-Y', $produit->date_exp_fds);
+ 
+        return view('stock.product.edit')->with(compact('produit'));
     }
 
     /**
@@ -103,9 +110,39 @@ class ProductController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        $request->validated();
+        $data = $request->all();
+        $data['date_peremption'] = date("Y-m-d", strtotime($data['date_peremption']));
+        $data['date_exp_fds'] = date("Y-m-d", strtotime($data['date_exp_fds']));
+        $produit = Produit::findOrFail($id);
+
+        $produit->nom_produit = $data['nom_produit'];
+        $produit->est_solvant = $data['solvant'];
+        $produit->criticite = $data['criticite'];
+        $produit->date_peremption = $data['date_peremption'];
+        $produit->qte_stock = $data['qte_stock'];
+        $produit->qte_min = $data['qte_min'];
+        $produit->unite = $data['unite'];
+        $produit->etagere = $data['etagere'];
+        $produit->casier = $data['num_casier'];
+        $produit->date_exp_fds = $data['date_exp_fds'];
+        //Traitement du fichier
+        //On verifie si le fichier est bien présent
+        if($file = $request->hasFile('fds')){
+            $file = $request->file('fds');
+            $nom_fichier = $file->getClientOriginalName();
+            $destination = public_path()."/fds/";
+            $file->move($destination, $nom_fichier);
+            $produit->fds = $nom_fichier;
+        }
+        $produit->save();
+        $successMessage = 'Les modifications ont été enregistré';
+        
+        return redirect('/stock/liste_produit')->with('successMessage', $successMessage);
+        
+
     }
 
     /**
@@ -114,9 +151,13 @@ class ProductController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $data = $request->all();
+        $id = $data['id'];
+        $etagere = Produit::findOrFail($id);
+        $etagere->delete();
+        return "success";
     }
 
     public function view_file($fds){
@@ -125,5 +166,14 @@ class ProductController extends BaseController
         //     <iframe src ="'.$urlc.'" width="1000px" height="600px"></iframe>
         // ';
         return response()->file(public_path()."/fds/$fds");
+    }
+
+    public function index_etagere($id)
+    {
+        $produits = Produit::where('etagere',$id)->get();
+        $produits = json_decode($produits);
+        return view('stock.product.list_etagere')->with(compact('produits'));
+        print_r($produits);
+        die;
     }
 }
