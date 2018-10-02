@@ -55,7 +55,15 @@ Route::get('/stock/ajouter_produit', 'Admin\ProductController@create');
 Route::post('/stock/ajouter_produit', 'Admin\ProductController@store');
 Route::get('/stock/liste_produit', 'Admin\ProductController@index');
 Route::get('/view_file/{fds}','Admin\ProductController@view_file');
+Route::get('/stock/modifier_produit/{id}', 'Admin\ProductController@edit');
+Route::post('/stock/modifier_produit/{id}', 'Admin\ProductController@update');
+Route::post('/stock/supprimer_produit', 'Admin\ProductController@destroy');
 
 //Unite
 Route::post('/stock/ajouter_unite', 'Admin\UniteController@store');
 Route::get('/stock/unites', 'Admin\UniteController@unite_ajax');
+
+Route::get('/stock/liste_produit_etagere/{id}', 'Admin\ProductController@index_etagere');
+
+//Approvisionnement
+Route::get('/stock/approvisionner', 'Admin\ApprovisionnementController@create');
