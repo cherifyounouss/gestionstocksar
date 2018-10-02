@@ -70,11 +70,11 @@
                     <td>{{$produit->date_exp_fds}}</td>
                     <td>
                         {{--  On transmet l'id du fournisseur a modifier au controlleur via l'url  --}}
-                        <form style="display: inline">
+                        <form style="display: inline" action="{{url('/stock/modifier_produit', $produit->id)}}">
                             <button type="submit" class="btn btn-cyan btn-sm">Modifier</button>
                         </form>
                         <input type="hidden">
-                        <button type="button" onclick="test({{ $produit->id}})" class="btn btn-danger btn_delete btn-sm" data-toggle="modal">Supprimer</button>
+                        <button type="button" onclick="supprimer({{ $produit->id}})" class="btn btn-danger btn_delete btn-sm" data-toggle="modal">Supprimer</button>
                     </td>                  
                 </tr>
                 @endforeach
@@ -135,17 +135,17 @@
     const APP_NAME = "localhost/stockLaboSAR/public";
 
    
-    function test(id){
-        if(confirm("Voulez-vous vraiment supprimer ce fournisseur ?")){
+    function supprimer(id){
+        if(confirm("Voulez-vous vraiment supprimer ce produit ?")){
             //Requete post envoyé au controlleur pour pouvoir supprimer un fournisseur
             $.ajax({
                 method: "POST",
-                url: "{{url('/supprimer_fournisseur')}}",
+                url: "{{url('/stock/supprimer_produit')}}",
                 data: {id: id, _token: "{{ csrf_token() }}"},
             }).done(function(response) {
                 if(response == "success"){
                     //On crée une variable afin de contenir la notification de suppression
-                    sessionStorage.setItem('messageSuppression','Le fournisseur a été supprimé');
+                    sessionStorage.setItem('messageSuppression','Le produit a été supprimé');
                     location.reload(true);
                 }
             })
