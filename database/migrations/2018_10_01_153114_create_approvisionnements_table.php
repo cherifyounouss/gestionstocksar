@@ -21,6 +21,8 @@ class CreateApprovisionnementsTable extends Migration
             $table->decimal('conditionnement',8,2);
             //Quantite par conditionnements
             $table->decimal('qte_cond',8,2);
+            //Total
+            $table->decimal('total',10,2);
             //Fournisseur ayant livre le produit
             $table->integer('fournisseur');
             //Date approvisionnement
