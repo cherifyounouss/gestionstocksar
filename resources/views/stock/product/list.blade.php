@@ -114,14 +114,10 @@
             </div>
         </div>
 </div>
-<div id="my-container"></div>
-
 @endsection
 @section('scripts')
 <script src="{{asset('assets/extra-libs/DataTables/datatables.min.js')}}"></script>
-<script src="{{asset('js/pdfobject.js')}}"></script>
 <script>
-    PDFObject.embed({{asset('fds/cvCherif')}}, "#my-container");
 
     $(document).ready(function(){
         //On affiche une notification de suppression si la variable de notification de suppression existe
