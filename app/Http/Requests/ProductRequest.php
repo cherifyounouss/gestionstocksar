@@ -27,13 +27,13 @@ class ProductRequest extends FormRequest
             'nom_produit' => 'required',
             'solvant' => 'required|boolean',
             'criticite' => 'in:V,I,S',
-            'date_peremption' => 'required|date',
+            'date_peremption' => 'required|date_format:d/m/Y',
             'qte_stock' => 'required|numeric',
             'qte_min' => 'required|numeric',
             'unite' => 'required|exists:unites,unite',
             'etagere' => 'required|exists:etageres,libelle',
             'num_casier' => 'required|integer',
-            'date_exp_fds' => 'required|date',
+            'date_exp_fds' => 'required|date_format:d/m/Y',
             'fds' => 'mimes:pdf',
         ];
     }
