@@ -9,6 +9,7 @@ use App\Produit;
 use App\Etagere;
 use App\Http\Requests\ProductRequest;
 use Carbon\Carbon;
+use Response;
 use DateTime;
 class ProductController extends BaseController
 {
@@ -44,8 +45,9 @@ class ProductController extends BaseController
     {
         $request->validated();
         $data = $request->all();
-        $data['date_peremption'] = DateTime::createFromFormat('d/m/Y', $data['date_peremption']);
-        $data['date_exp_fds'] = DateTime::createFromFormat('d/m/y', $data['date_exp_fds']);
+        $data['date_peremption'] = date("Y-m-d", strtotime($data['date_peremption']));
+        $data['date_exp_fds'] = date("Y-m-d", strtotime($data['date_exp_fds']));
+        
         //Test de sauvegarde des informations au niveau de la base de donnees
         $produit = new Produit;
         $produit->nom_produit = $data['nom_produit'];
@@ -62,7 +64,9 @@ class ProductController extends BaseController
         //On verifie si le fichier est bien présent
         if($file = $request->hasFile('fds')){
             $file = $request->file('fds');
-            $nom_fichier = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $nom_fichier = rand(111,99999).'.'.$extension;
+            // $nom_fichier = $file->getClientOriginalName();
             $destination = public_path()."/fds/";
             $file->move($destination, $nom_fichier);
             $produit->fds = $nom_fichier;
@@ -161,11 +165,12 @@ class ProductController extends BaseController
     }
 
     public function view_file($fds){
-        // $urlc = url_decode(public_path()."/laraview/#../fds/$fds");
-        // echo '
-        //     <iframe src ="'.$urlc.'" width="1000px" height="600px"></iframe>
-        // ';
-        return response()->file(public_path()."/fds/$fds");
+        // $pdf = \App::make(public_path()."/fds/$fds");
+        // return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView(public_path()."/fds/$fds")->stream();
+        // return $pdf->stream(); 
+            $response = Response::make(public_path()."/fds/$fds", 200); 
+            $response->header('Content-Type', 'application/pdf'); 
+            return $response; 
     }
 
     public function index_etagere($id)
@@ -173,7 +178,5 @@ class ProductController extends BaseController
         $produits = Produit::where('etagere',$id)->get();
         $produits = json_decode($produits);
         return view('stock.product.list_etagere')->with(compact('produits'));
-        print_r($produits);
-        die;
     }
 }
