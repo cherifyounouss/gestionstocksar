@@ -23,7 +23,7 @@
         @foreach ($produits_en_rupt as $produit)
         <div class="alert alert-danger" role="alert">
                 <h4 class="alert-heading"> {{$produit->nom_produit}}</h4>
-                <p>La quantit&eacute; minimum dalerte a été atteinte pour ce produit</p>
+                <p>La quantit&eacute; minimale dalerte a été atteinte pour ce produit</p>
                 <hr>
                 <p class="mb-0">Veuillez proc&eacute;der &agrave; un réapprovisionnement du stock</p>
         </div>
