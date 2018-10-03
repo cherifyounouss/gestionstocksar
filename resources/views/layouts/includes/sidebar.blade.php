@@ -25,6 +25,7 @@
                             <li class="sidebar-item"><a href="{{url('/ajouter_fournisseur')}}" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Ajouter un nouveau fournisseur </span></a></li>
                             <li class="sidebar-item"><a href="{{url('/liste_fournisseur')}}" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Liste des fournisseurs </span></a></li>
                     </ul>
+                </li>    
             </ul>
         </nav>
         <!-- End Sidebar navigation -->
