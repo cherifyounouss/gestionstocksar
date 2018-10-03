@@ -197,7 +197,7 @@
         $.ajax({
             method: "POST",
             url: "{{url('/stock/ajouter_unite')}}",
-            data: {unite: unite, _token: '{{csrf_token()}}' }
+            data: {unite: unite, _token: '{{csrf_token()}}' },
         }).done(function(response){
             $("#modal_unite").modal('hide');
             $("#select_unite").html("<option>Select</option>");
