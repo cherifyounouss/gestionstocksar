@@ -72,4 +72,5 @@ Route::get('/stock/historique_approvisionnement', 'Admin\ApprovisionnementContro
 Route::get('/liste_approvisionnement', 'Admin\ApprovisionnementController@liste_appro_date');
 
 //Notifications d'alerte
-Route::get('/notifications', 'Admin\ProductController@get_notifications');
+Route::get('/notifications/alerte_stock', 'Admin\ProductController@get_alerte_stock');
+Route::get('/notifications/alerte_peremption', 'Admin\ProductController@get_alerte_date_prmtion');
