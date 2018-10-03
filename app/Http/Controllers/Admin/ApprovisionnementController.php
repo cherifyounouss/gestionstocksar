@@ -10,6 +10,7 @@ use App\Fournisseur;
 use App\Approvisionnement;
 use App\Http\Controllers\Admin\BaseController;
 use DateTime;
+use Carbon\Carbon;
 
 
 class ApprovisionnementController extends BaseController
@@ -47,7 +48,7 @@ class ApprovisionnementController extends BaseController
     {
         $request->validated();
         $data = $request->all();
-        $data['date_approvision'] = date("Y-m-d", strtotime($data['date_approvision']));
+        //On procede au traitement si et seulement le produit concerné par l'approvisionnement existe
         if($produit = Produit::findOrFail($data['produit'])){
 
             //On sauvegarde les details de l'approvisionnement
@@ -58,12 +59,14 @@ class ApprovisionnementController extends BaseController
             $approvision->conditionnement = $data['conditionnement'];
             $approvision->qte_cond = $data['qte_par_cond'];
             $approvision->total = $data['total'];
-            $approvision->date_appr = $data['date_approvision'];
+            $date_appr = DateTime::createFromFormat('d/m/Y', $data['date_approvision']);
+            $approvision->date_appr = $date_appr->format('Y-m-d');
             $approvision->save();
             //On augmente le stock actuel
             $produit->qte_stock+=$data['total'];
             $produit->save();
-            echo "success";
+            $successMessage = 'Le stock a été approvisionné';
+            return redirect('/stock/approvisionner');
         }
 
         die;
@@ -116,11 +119,14 @@ class ApprovisionnementController extends BaseController
     }
 
     public function liste_appro_date(Request $request){
+
         $data = $request->all();
-        $response = '<tr><td>Aucun resultat</td></tr>';
-        $date_appr = $data['date_appr'];
+        $date_appr = DateTime::createFromFormat('d/m/Y', $data['date_appr']);
+        // $date_appr = Carbon::parse(date($date_appr))->format('Y-m-d');
+        $date_appr = $date_appr->format('Y-m-d');
+        $response = '';
         //On verifie s'il existe des approvisionnements a la date choisis par l'utilisateur
-        if($approvisionnements = Approvisionnement::whereDate('date_appr', '=', $data['date_appr'])->get()){
+        if($approvisionnements = Approvisionnement::whereDate('date_appr', '=', $date_appr)->get()){
             $response = '';
             foreach ($approvisionnements as $approvision) {
 
@@ -132,6 +138,7 @@ class ApprovisionnementController extends BaseController
                 if($fournisseur = Fournisseur::findOrFail($approvision->fournisseur)){
                     $approvision->nom_fournisseur = $fournisseur->nom_fournisseur;
                 }
+                //On construit le corps du tableau d'historique avec les donnees recueillis
                 $response.='
                             <tr>
                                 <td>'.$approvision->num_BL.'</td>
@@ -139,7 +146,7 @@ class ApprovisionnementController extends BaseController
                                 <td>'.$approvision->conditionnement.'</td>
                                 <td>'.$approvision->qte_cond.'</td>
                                 <td>'.$approvision->total.'</td>
-                                <td>'.$approvision->nom_fournisseur.'<td>
+                                <td>'.$approvision->nom_fournisseur.'</td>
                             </tr>
                 ';
             }
