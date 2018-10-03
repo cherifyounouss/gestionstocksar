@@ -21,6 +21,13 @@ class ProductController extends BaseController
     public function index()
     {
         $produits = Produit::all();
+        //On change le format des dates en jj/mm/aa
+        foreach ($produits as $produit) {
+            $date_peremption = DateTime::createFromFormat('Y-m-d',$produit->date_peremption);
+            $produit->date_peremption = $date_peremption->format('d-m-Y');
+            $date_exp_fds = DateTime::createFromFormat('Y-m-d',$produit->date_exp_fds);
+            $produit->date_exp_fds = $date_exp_fds->format('d-m-Y');
+        }
         return view('stock.product.list')->with(compact('produits'));
     }
 
@@ -45,21 +52,25 @@ class ProductController extends BaseController
     {
         $request->validated();
         $data = $request->all();
-        $data['date_peremption'] = date("Y-m-d", strtotime($data['date_peremption']));
-        $data['date_exp_fds'] = date("Y-m-d", strtotime($data['date_exp_fds']));
+        // $data['date_peremption'] = date("Y-m-d", strtotime($data['date_peremption']));
+        // $data['date_exp_fds'] = date("Y-m-d", strtotime($data['date_exp_fds']));
         
         //Test de sauvegarde des informations au niveau de la base de donnees
         $produit = new Produit;
         $produit->nom_produit = $data['nom_produit'];
         $produit->est_solvant = $data['solvant'];
         $produit->criticite = $data['criticite'];
-        $produit->date_peremption = $data['date_peremption'];
+        $date_peremption = DateTime::createFromFormat('d/m/Y', $data['date_peremption']);
+        // $produit->date_peremption = Carbon::parse(date($data['date_peremption']))->format('Y-m-d');
+        $produit->date_peremption = $date_peremption->format('Y-m-d');
         $produit->qte_stock = $data['qte_stock'];
         $produit->qte_min = $data['qte_min'];
         $produit->unite = $data['unite'];
         $produit->etagere = $data['etagere'];
         $produit->casier = $data['num_casier'];
-        $produit->date_exp_fds = Carbon::parse(date($data['date_exp_fds']))->format('Y-m-d');
+        $date_exp_fds = DateTime::createFromFormat('d/m/Y', $data['date_exp_fds']);
+        // $produit->date_exp_fds = Carbon::parse(date($data['date_exp_fds']))->format('Y-m-d');
+        $produit->date_exp_fds = $date_exp_fds->format('Y-m-d');
         //Traitement du fichier
         //On verifie si le fichier est bien présent
         if($file = $request->hasFile('fds')){
@@ -72,7 +83,7 @@ class ProductController extends BaseController
             $produit->fds = $nom_fichier;
         }
         $produit->save();
-        $successMessage = 'Le nouveau produit a ete enregistre';
+        $successMessage = 'Le nouveau produit a été enregistré';
         
         return redirect('/stock/liste_produit')->with('successMessage', $successMessage);
         
@@ -99,8 +110,10 @@ class ProductController extends BaseController
     {
         $produit = Produit::findOrFail($id);
         $produit = json_decode($produit);
-        $produit->date_peremption = date("d-m-Y", strtotime($produit->date_peremption));
-        $produit->date_exp_fds = date('d-m-Y', strtotime($produit->date_exp_fds));
+        $date_peremption = DateTime::createFromFormat('Y-m-d',$produit->date_peremption);
+        $produit->date_peremption = $date_peremption->format('d/m/Y');
+        $date_exp_fds = DateTime::createFromFormat('Y-m-d',$produit->date_exp_fds);
+        $produit->date_exp_fds = $date_exp_fds->format('d/m/Y');
         // $produit->date_peremption = DateTime::format('d-m-Y', $produit->date_peremption);
         // $produit->date_exp_fds = DateTime::createFromFormat('d-m-Y', $produit->date_exp_fds);
  
@@ -118,20 +131,21 @@ class ProductController extends BaseController
     {
         $request->validated();
         $data = $request->all();
-        $data['date_peremption'] = date("Y-m-d", strtotime($data['date_peremption']));
-        $data['date_exp_fds'] = date("Y-m-d", strtotime($data['date_exp_fds']));
+
         $produit = Produit::findOrFail($id);
 
         $produit->nom_produit = $data['nom_produit'];
         $produit->est_solvant = $data['solvant'];
         $produit->criticite = $data['criticite'];
-        $produit->date_peremption = $data['date_peremption'];
+        $date_peremption = DateTime::createFromFormat('d/m/Y', $data['date_peremption']);
+        $produit->date_peremption = $date_peremption->format('Y-m-d');
+        $date_exp_fds = DateTime::createFromFormat('d/m/Y',$data['date_exp_fds']);
+        $produit->date_exp_fds = $date_exp_fds->format('Y-m-d');
         $produit->qte_stock = $data['qte_stock'];
         $produit->qte_min = $data['qte_min'];
         $produit->unite = $data['unite'];
         $produit->etagere = $data['etagere'];
         $produit->casier = $data['num_casier'];
-        $produit->date_exp_fds = $data['date_exp_fds'];
         //Traitement du fichier
         //On verifie si le fichier est bien présent
         if($file = $request->hasFile('fds')){
@@ -142,7 +156,7 @@ class ProductController extends BaseController
             $produit->fds = $nom_fichier;
         }
         $produit->save();
-        $successMessage = 'Les modifications ont été enregistré';
+        $successMessage = 'Les modifications ont été enregistrées';
         
         return redirect('/stock/liste_produit')->with('successMessage', $successMessage);
         
