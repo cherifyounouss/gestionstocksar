@@ -193,4 +193,18 @@ class ProductController extends BaseController
         $produits = json_decode($produits);
         return view('stock.product.list_etagere')->with(compact('produits'));
     }
+
+    public function get_notifications(Request $request){
+        $produits = Produit::all();
+        //tableau pour stocker les produits en voie de rupture
+        $produits_en_rupt = array();
+        foreach ($produits as $produit) {
+            //Si la quantite minimale accepté pour un produit est superieur a la quantite disponible en stock
+            //Alors on conserve le dit produit au niveau de la table $produits_en_rupt
+            if($produit->qte_min >= $produit->qte_stock){
+                $produits_en_rupt[] = $produit;
+            }
+        }
+        return view('alertes.alerte_stock')->with(compact('produits_en_rupt'));
+    }
 }
