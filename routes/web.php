@@ -67,3 +67,6 @@ Route::get('/stock/liste_produit_etagere/{id}', 'Admin\ProductController@index_e
 
 //Approvisionnement
 Route::get('/stock/approvisionner', 'Admin\ApprovisionnementController@create');
+Route::post('/stock/approvisionner', 'Admin\ApprovisionnementController@store');
+Route::get('/stock/historique_approvisionnement', 'Admin\ApprovisionnementController@index');
+Route::get('/liste_approvisionnement', 'Admin\ApprovisionnementController@liste_appro_date');
