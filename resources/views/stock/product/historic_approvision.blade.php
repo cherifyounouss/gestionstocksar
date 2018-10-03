@@ -38,12 +38,12 @@
                 <table class="table">
                       <thead>
                         <tr>
-                          <th scope="col">Num&eacute;ro BL</th>
-                          <th scope="col">Produit</th>
-                          <th scope="col">Conditionnement</th>
-                          <th scope="col">Quantit&eacute;/Cond</th>
-                          <th scope="col">Total</th>
-                          <th scope="col">Fournisseur</th>
+                          <th scope="col"><b>Num&eacute;ro BL</b></th>
+                          <th scope="col"><b>Produit</b></th>
+                          <th scope="col"><b>Conditionnement</b></th>
+                          <th scope="col"><b>Quantit&eacute;/Cond</b></th>
+                          <th scope="col"><b>Total</b></th>
+                          <th scope="col"><b>Fournisseur</b></th>
                         </tr>
                       </thead>
                       <tbody id="tab_appro_body">
@@ -66,12 +66,15 @@
             url: "{{url('/liste_approvisionnement')}}",
             data: {date_appr: date_appr}
         }).done(function(response){
-            $("#tab_appro_body").html(response);
+            if(response)
+                $("#tab_appro_body").html(response);
+            else
+                $("#tab_appro_body").html('<tr><td>Aucun resultat</td></tr>');   
         })
     });
     /*datepicker*/
     jQuery('#date_appro').datepicker({
-        format: 'yyyy/mm/dd',
+        format: 'dd/mm/yyyy',
         autoclose: true,
         todayHighlight: true
     });    
