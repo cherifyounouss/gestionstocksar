@@ -5,11 +5,24 @@
         <nav class="sidebar-nav">
             <ul id="sidebarnav" class="p-t-30">
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{url('/dashboard')}}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Tableau de bord</span></a></li>
-                @if ($nb_alertes > 0)
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{url('/notifications')}}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Notifications <span class="badge badge-pill badge-danger">{{$nb_alertes}}</span></span></a></li>
-                @else
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{url('/notifications')}}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Notifications</span></a></li>
-                @endif
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect has-arrow waves-dark sidebar-link" href="charts.html" aria-expanded="false"><i class="mdi mdi-format-list-bulleted-type"></i><span class="hide-menu">Notifications
+                    @if ($nb_alertes > 0)
+                    <span class="badge badge-pill badge-danger">{{$nb_alertes}}</span>
+                    @endif
+                    </span></a>
+                    <ul aria-expanded="false" class="collapse  first-level">
+                            <li class="sidebar-item"><a href="{{url('/notifications/alerte_stock')}}" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Alertes stock
+                            @if ($nb_produits_en_rupt > 0)
+                            <span class="badge badge-pill badge-danger">{{$nb_produits_en_rupt}}</span>
+                            @endif
+                            </span></a></li>
+                            <li class="sidebar-item"><a href="{{url('/notifications/alerte_peremption')}}" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Alertes date de p&eacute;remption
+                            @if ($nb_produits_en_per > 0)
+                            <span class="badge badge-pill badge-danger">{{$nb_produits_en_per}}</span>
+                            @endif    
+                            </span></a></li>
+                    </ul>
+                </li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect has-arrow waves-dark sidebar-link" href="charts.html" aria-expanded="false"><i class="mdi mdi-format-list-bulleted-type"></i><span class="hide-menu">G&eacute;rer le stock</span></a>
                     <ul aria-expanded="false" class="collapse  first-level">
                         <li class="sidebar-item"><a href="{{url('/stock/ajouter_produit')}}" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Cr&eacute;er un produit </span></a></li>
