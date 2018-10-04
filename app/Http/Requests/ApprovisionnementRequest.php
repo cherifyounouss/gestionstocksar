@@ -29,7 +29,7 @@ class ApprovisionnementRequest extends FormRequest
             'fournisseur' => 'required|exists:fournisseurs,id',
             'conditionnement' => 'required|numeric',
             'qte_par_cond' => 'required|numeric',
-            'date_approvision' => 'required|date',
+            'date_approvision' => 'required|date_format:d/m/Y',
         ];
     }
 
