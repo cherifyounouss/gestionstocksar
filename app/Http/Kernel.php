@@ -63,5 +63,6 @@ class Kernel extends HttpKernel
         //Custom Middleware
         'utilisateur_connecte' => \App\Http\Middleware\RedirectIfUserAuthenticated::class,
         'utilisateur_non_connecte' => \App\Http\Middleware\AuthenticateUser::class,
+        'test' => \App\Http\Middleware\TestMiddleware::class,
     ];
 }
