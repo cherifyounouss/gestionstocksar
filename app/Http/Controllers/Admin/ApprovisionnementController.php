@@ -66,7 +66,7 @@ class ApprovisionnementController extends BaseController
             $produit->qte_stock+=$data['total'];
             $produit->save();
             $successMessage = 'Le stock a été approvisionné';
-            return redirect('/stock/approvisionner');
+            return redirect('/stock/approvisionner')->with('successMessage', $successMessage);
         }
 
         die;
