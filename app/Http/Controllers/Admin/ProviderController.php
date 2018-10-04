@@ -10,6 +10,12 @@ use App\Fournisseur;
 
 class ProviderController extends BaseController
 {
+
+    // public function __construct() {
+    //     parent::__construct();
+    //     $this->middleware(['utilisateur_non_connecte','test']);
+    // }
+
     /**
      * Display a listing of the resource.
      *
