@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
+
 
 //Notification for Seller
 use App\Notifications\UtilisateurResetPasswordNotification;
@@ -15,6 +17,7 @@ class Utilisateur extends Authenticatable
 {
     // This trait has notify() method defined
     use Notifiable;
+    use HasRoles;
 
     protected $table = 'utilisateurs';
     protected $fillable = [
