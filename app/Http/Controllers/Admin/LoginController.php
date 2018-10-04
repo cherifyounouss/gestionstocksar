@@ -13,12 +13,20 @@ class LoginController extends Controller
     //
     use AuthenticatesUsers;
 
-    protected $redirectTo = '/accueil';
+    protected $redirectTo = '/dashboard';
 
     public function showLoginForm(){
         return view('auth.login');
     }
 
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return $this->loggedOut($request) ?: redirect('/se_connecter');
+    }
 
     protected function guard(){
         return Auth::guard('utilisateur');
