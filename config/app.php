@@ -148,6 +148,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Goodnesskay\LaravelPdfViewer\LaravelPdfViewerServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
         /*
          * Package Service Providers...
          */
