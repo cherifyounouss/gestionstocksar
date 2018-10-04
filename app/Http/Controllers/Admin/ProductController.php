@@ -160,7 +160,6 @@ class ProductController extends BaseController
         
         return redirect('/stock/liste_produit')->with('successMessage', $successMessage);
         
-
     }
 
     /**
@@ -190,11 +189,23 @@ class ProductController extends BaseController
     public function index_etagere($id)
     {
         $produits = Produit::where('etagere',$id)->get();
+            //On change le format des dates en jj/mm/aa
+            foreach ($produits as $produit) {
+                $date_peremption = DateTime::createFromFormat('Y-m-d',$produit->date_peremption);
+                $produit->date_peremption = $date_peremption->format('d-m-Y');
+                $date_exp_fds = DateTime::createFromFormat('Y-m-d',$produit->date_exp_fds);
+                $produit->date_exp_fds = $date_exp_fds->format('d-m-Y');
+            }
         $produits = json_decode($produits);
         return view('stock.product.list_etagere')->with(compact('produits'));
     }
-
-    public function get_notifications(Request $request){
+    
+    /*
+    *
+    *fonction pour recuperer les produits dont la quantite minimun d'alerte a été atteinte
+    *
+    */
+    public function get_alerte_stock(Request $request){
         $produits = Produit::all();
         //tableau pour stocker les produits en voie de rupture
         $produits_en_rupt = array();
@@ -207,4 +218,25 @@ class ProductController extends BaseController
         }
         return view('alertes.alerte_stock')->with(compact('produits_en_rupt'));
     }
+
+    public function get_alerte_date_prmtion(){
+        // $datetime1 = Carbon::now();
+        // $datetime2 = Carbon::yesterday();
+        // echo $datetime1->diffInWeeks($datetime2);
+        $today = Carbon::now();
+        $produits = Produit::all();
+        $produits_per = array();
+        foreach ($produits as $produit) {
+            $date_peremption = Carbon::createFromFormat('Y-m-d', $produit->date_peremption);
+            //Les produits dont la date de peremption est dans deux semaines
+            if ($date_peremption->diffInWeeks($today) <= 2){
+                $produit->intervalle = $date_peremption->diffInWeeks($today);
+                $produits_per[] = $produit;
+            }
+            //end of if
+        }
+        //end of foreach
+        return view('alertes.alerte_peremption')->with(compact('produits_per'));
+    }
+    //end of function
 }
