@@ -1,5 +1,6 @@
 @extends('layouts.layout')
 @section('links')
+<link rel="stylesheet" type="text/css" href="{{asset('/assets/libs/select2/dist/css/select2.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
 @endsection
 @section('crumb')
@@ -25,16 +26,42 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title m-b-0">Approvisionnement</h5>
-                <div class="form-group row">
-                    <label class="col-sm-3 text-right control-label col-form-label">Date approvisionnement</label>
-                    <div class="input-group col-sm-5">
-                        <input type="text" class="form-control" id="date_appro" name="date_appro" placeholder="jj/mm/aaaa">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <form class="form-row">
+                    <div class="form-group">
+                            <label class="col-sm-4 text-right control-label col-form-label">Date de d&eacute;but</label>
+                            <div class="input-group col-sm-12">
+                                <input type="text" class="form-control" id="date_debut" name="date_fin" placeholder="jj/mm/aaaa">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>               
+                    <div class="form-group">
+                        <label class="col-sm-4 text-right control-label col-form-label">Date de fin</label>
+                        <div class="input-group col-sm-12">
+                            <input type="text" class="form-control" id="date_fin" name="date_fin" placeholder="jj/mm/aaaa">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            </div>
                         </div>
                     </div>
-                </div> 
+                    <div class="form-group">
+                        <label class="col-sm-4 text-right control-label col-form-label">Produit</label>
+                        <div class="col-sm-12">
+                            <select class="select2 form-control custom-select" name="produit" id="produit" style="width: 100%; height:36px;" required>
+                                <option>Select</option>
+                                @foreach($produits as $produit)
+                                <option value="{{ $produit->id}}">{{ $produit->nom_produit}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm-7">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                    </div>
+                </form>
             </div>
+            <div class="table-responsive">
                 <table class="table">
                       <thead>
                         <tr>
@@ -49,6 +76,7 @@
                       <tbody id="tab_appro_body">
                       </tbody>
                 </table>
+            </div>
         </div>
     </div>
 </div>
@@ -56,7 +84,13 @@
 @endsection
 @section('scripts')
 <script src="{{asset('/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{asset('/assets/libs/select2/dist/js/select2.full.min.js')}}"></script>
+<script src="{{asset('/assets/libs/select2/dist/js/select2.min.js')}}"></script>
 <script>
+    //***********************************//
+    // For select 2
+    //***********************************//
+    $(".select2").select2();
 
     $("#date_appro").change(function(){
         var date_appr = $("#date_appro").val();
@@ -73,10 +107,15 @@
         })
     });
     /*datepicker*/
-    jQuery('#date_appro').datepicker({
+    jQuery('#date_debut').datepicker({
         format: 'dd/mm/yyyy',
         autoclose: true,
         todayHighlight: true
-    });    
+    });
+    jQuery('#date_fin').datepicker({
+        format: 'dd/mm/yyyy',
+        autoclose: true,
+        todayHighlight: true
+    });       
 </script>
 @endsection
