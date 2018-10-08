@@ -15,6 +15,11 @@ use Carbon\Carbon;
 
 class ApprovisionnementController extends BaseController
 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->middleware('approvision_control');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +27,8 @@ class ApprovisionnementController extends BaseController
      */
     public function index()
     {
-        return view('stock.product.historic_approvision');
+        $produits = Produit::all();
+        return view('stock.product.historic_approvision')->with(compact('produits'));
     }
 
     /**
