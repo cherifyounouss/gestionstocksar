@@ -5,14 +5,23 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\BaseController;
+//Model Produit
 use App\Produit;
+//Model Etagere
 use App\Etagere;
 use App\Http\Requests\ProductRequest;
+//Carbon pour manipuler les dates
 use Carbon\Carbon;
 use Response;
+//DateTime pour manipuler les dates
 use DateTime;
 class ProductController extends BaseController
 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->middleware('produit_control');
+    }
     /**
      * Display a listing of the resource.
      *
