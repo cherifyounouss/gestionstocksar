@@ -64,7 +64,7 @@
                     <td>{{$produit->qte_min}} {{$produit->unite}}</td>
                     <td>{{$produit->etagere}} {{$produit->casier}}</td>
                     <td>
-                        <a href="{{url('/view_file',$produit->fds)}}">FDS</a>
+                        <a href="{{asset('/fds/'.$produit->fds)}}">FDS</a>
                     </td>
                     <td>{{$produit->date_exp_fds}}</td>
                     <td>
