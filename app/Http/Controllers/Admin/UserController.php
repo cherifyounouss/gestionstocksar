@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\UserRequest;
 use App\Utilisateur;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends BaseController
 {
@@ -28,8 +30,8 @@ class UserController extends BaseController
      */
     public function create()
     {
-        //
-        return view('user.new');
+        $roles = Role::all();
+        return view('user.new')->with(compact('roles'));
     }
 
     /**
@@ -48,8 +50,21 @@ class UserController extends BaseController
         $utilisateur->email = $data['email'];
         $utilisateur->password = bcrypt($data['password']);
         $utilisateur->save();
-        return "Saved without issues";
-        
+        $roles = $data['roles'];
+        if (count($roles)) {
+            foreach ($roles as $role) {
+                //On recupere le role
+                $r = Role::where('id', '=', $role)->firstOrFail();
+                $utilisateur->assignRole($r);
+                $permissions = $r->permissions()->get();
+                $utilisateur->givePermissionTo($permissions);
+                // print_r(json_encode($permissions));
+            }
+        }
+
+        $successMessage = 'Un nouvel utilisateur a été enregistré';
+        echo "Saved without issues";
+        die;
     }
 
     /**
@@ -71,7 +86,9 @@ class UserController extends BaseController
      */
     public function edit($id)
     {
-        //
+        $utilisateur = Utilisateur::findOrFail($id);
+        $roles = Role::all();
+        return view('user.edit')->with(compact('utilisateur','roles'));
     }
 
     /**
