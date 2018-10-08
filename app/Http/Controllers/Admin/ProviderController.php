@@ -7,14 +7,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\ProviderStoreRequest;
 use App\Fournisseur;
+use Sessions;
 
 class ProviderController extends BaseController
 {
 
-    // public function __construct() {
-    //     parent::__construct();
-    //     $this->middleware(['utilisateur_non_connecte','test']);
-    // }
+    public function __construct() {
+        parent::__construct();
+        $this->middleware('fournisseur_control');
+    }
 
     /**
      * Display a listing of the resource.
