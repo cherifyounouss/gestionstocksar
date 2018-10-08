@@ -19,6 +19,7 @@ class Utilisateur extends Authenticatable
     use Notifiable;
     use HasRoles;
 
+    protected $guard_name = 'utilisateur';
     protected $table = 'utilisateurs';
     protected $fillable = [
         'prenom', 'nom', 'email', 'password',
