@@ -34,6 +34,8 @@ Route::group(['middleware' => 'utilisateur_non_connecte'], function() {
     Route::get('/ajouter_utilisateur', 'Admin\UserController@create');
     Route::post('/ajouter_utilisateur', 'Admin\UserController@store');
     Route::get('/liste_utilisateur', 'Admin\UserController@index');
+    Route::get('/modifier_utilisateur/{id}', 'Admin\UserController@edit');
+    Route::post('/modifier_utilisateur/{id}', 'Admin\UserController@update');
     Route::post('/supprimer_utilisateur', 'Admin\UserController@destroy');
 
     //Etagere
@@ -74,6 +76,14 @@ Route::group(['middleware' => 'utilisateur_non_connecte'], function() {
     Route::post('/stock/consommer', 'Admin\ConsommationController@store');
     Route::get('/stock/historique_consommation', 'Admin\ConsommationController@index');
     Route::get('/liste_consommation', 'Admin\ConsommationController@liste_cons_date');
+
+    //Role
+    Route::get('/ajouter_role', 'Admin\RoleController@create');
+    Route::post('/ajouter_role', 'Admin\RoleController@store');
+    Route::get('/liste_role', 'Admin\RoleController@index');
+    Route::get('/modifier_role/{id}', 'Admin\RoleController@edit');
+    Route::post('/modifier_role/{id}', 'Admin\RoleController@update');
+    Route::post('/supprimer_role', 'Admin\RoleController@destroy');
 
     Route::post('/deconnexion', 'Admin\LoginController@logout');
 });
