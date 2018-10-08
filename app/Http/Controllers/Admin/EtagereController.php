@@ -10,6 +10,12 @@ use App\Etagere;
 
 class EtagereController extends BaseController
 {
+
+    public function __construct() {
+        parent::__construct();
+        $this->middleware('etagere_control');
+    }
+
     /**
      * Display a listing of the resource.
      *
