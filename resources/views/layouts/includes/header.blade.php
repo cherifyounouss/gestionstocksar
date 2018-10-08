@@ -59,10 +59,10 @@
                              <span class="d-block d-md-none"><i class="fa fa-plus"></i></span>   
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Produit</a>
+                                <a class="dropdown-item" href="{{url('/stock/ajouter_produit')}}">Produit</a>
                                 <a class="dropdown-item" href="{{url('/ajouter_fournisseur')}}">Fournisseur</a>
                                 <!-- <div class="dropdown-divider"></div> -->
-                                <a class="dropdown-item" href="#">Etagere</a>
+                                <a class="dropdown-item" href="{{url('/stock/ajouter_etagere')}}">Etagere</a>
                                 <a class="dropdown-item" href="#">Utilisateur</a>
                             </div>
                         </li>
