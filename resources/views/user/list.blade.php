@@ -64,19 +64,19 @@
                                 </div>
                                 <div class="modal-body">
                                     <p>
-                                        <h3>Pr&eacute;nom</h3>
+                                        <h6>Pr&eacute;nom</h6>
                                         {{ $utilisateur->prenom}}
                                     </p>
                                     <p>
-                                        <h3>Nom</h3>
+                                        <h6>Nom</h6>
                                         {{ $utilisateur->nom}}
                                     </p>
                                     <p>
-                                        <h3>Email</h3>
+                                        <h6>Email</h6>
                                         {{ $utilisateur->email}}                                        
                                     </p>
                                     <p>
-                                        <h3>Cr&eacute;&eacute; le</h3>
+                                        <h6>Cr&eacute;&eacute; le</h6>
                                         {{ $utilisateur->created_at}}
                                     </p>                                                                                                            
                                 </div>
