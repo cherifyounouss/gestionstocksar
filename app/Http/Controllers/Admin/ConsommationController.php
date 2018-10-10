@@ -26,7 +26,8 @@ class ConsommationController extends BaseController
      */
     public function index()
     {
-        return view('stock.product.historic_consommation');
+        $produits = Produit::all();
+        return view('stock.product.historic_consommation')->with(compact('produits'));
     }
 
     /**
@@ -120,12 +121,17 @@ class ConsommationController extends BaseController
 
     public function liste_cons_date(Request $request){
         $data = $request->all();
-        $date_consommation = DateTime::createFromFormat('d/m/Y', $data['date_consommation']);
-        // $date_appr = Carbon::parse(date($date_appr))->format('Y-m-d');
-        $date_consommation = $date_consommation->format('Y-m-d');
+        //On cree un objet date a partir du format d/m/Y
+        $date_debut = DateTime::createFromFormat('d/m/Y', $data['date_debut']);
+        $date_fin = DateTime::createFromFormat('d/m/Y', $data['date_fin']);
+        //On met l'objet date au format Y-m-d
+        $date_debut = $date_debut->format('Y-m-d');
+        $date_fin = $date_fin->format('Y-m-d');
+        //Produit selectionné 
+        $produit = $data['produit'];
         $response = '';
         //On verifie s'il existe des approvisionnements a la date choisis par l'utilisateur
-        if($consommations = Consommation::whereDate('date_consommation', '=', $date_consommation)->get()){
+        if($consommations = Consommation::whereDate('date_consommation', '>=', $date_debut)->whereDate('date_consommation', '<=', $date_fin)->where('produit',$produit)->get()){
             $response = '';
             foreach ($consommations as $consommation) {
 
