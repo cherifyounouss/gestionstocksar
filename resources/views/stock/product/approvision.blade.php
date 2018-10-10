@@ -88,18 +88,27 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 text-right control-label col-form-label">Date approvisionnemnent</label>
+                    <label class="col-sm-3 text-right control-label col-form-label">Date approvisionnement</label>
                     <div class="input-group col-sm-9">
-                        <input type="text" class="form-control" id="date_approvision" name="date_approvision" value="{{ old('date_approvision')}}" placeholder="jj/mm/aaaa">
+                        <input type="text" class="form-control" id="date_approvision" name="date_approvision" value="{{ old('date_approvision')}}" placeholder="jj/mm/aaaa" required>
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                         </div>
                     </div>
-                </div>                                                                                             
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 text-right control-label col-form-label">Date péremption</label>
+                    <div class="input-group col-sm-9">
+                        <input type="text" class="form-control" id="date_peremption" name="date_peremption" value="{{ old('date_approvision')}}" placeholder="jj/mm/aaaa" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>                                                                                     
             </div>
             <div class="border-top">
                 <div class="card-body">
-                    <button type="submit" class="btn btn-primary">Cr&eacute;er</button>
+                    <button type="submit" class="btn btn-primary">Approvisionner</button>
                 </div>
             </div>
     </form>
@@ -120,8 +129,13 @@
         autoclose: true,
         todayHighlight: true
     });
+    jQuery('#date_peremption').datepicker({
+        format: 'dd/mm/yyyy',
+        autoclose: true,
+        todayHighlight: true
+    });
 
-    $("#conditionnement").change(function(){
+    /*$("#conditionnement").change(function(){
         var conditionnement = $("#conditionnement").val();
         var qte_par_cond = $("#qte_par_cond").val();
         if((conditionnement > 0) && (qte_par_cond>0)){
@@ -130,7 +144,7 @@
         else{
             $("#total").val(0);
         }
-    });
+    });*/
     $("#conditionnement").keyup(function(){
         var conditionnement = $("#conditionnement").val();
         var qte_par_cond = $("#qte_par_cond").val();
