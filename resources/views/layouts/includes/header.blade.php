@@ -22,7 +22,6 @@
                         <span class="logo-text">
                              <!-- dark Logo text -->
                              <!-- <img src="{{asset('images/logo_sar.png')}}" alt="homepage" class="light-logo" /> -->
-                            
                         </span>
                         <!-- Logo icon -->
                         <!-- <b class="logo-icon"> -->
@@ -59,21 +58,32 @@
                              <span class="d-block d-md-none"><i class="fa fa-plus"></i></span>   
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @if (auth()->guard('utilisateur')->user()->can('creer produit'))
                                 <a class="dropdown-item" href="{{url('/stock/ajouter_produit')}}">Produit</a>
+                                @endif
+                                @if (auth()->guard('utilisateur')->user()->can('creer fournisseur'))
                                 <a class="dropdown-item" href="{{url('/ajouter_fournisseur')}}">Fournisseur</a>
+                                @endif
                                 <!-- <div class="dropdown-divider"></div> -->
+                                @if (auth()->guard('utilisateur')->user()->can('creer etagere'))
                                 <a class="dropdown-item" href="{{url('/stock/ajouter_etagere')}}">Etagere</a>
-                                <a class="dropdown-item" href="#">Utilisateur</a>
+                                @endif
+                                @if (auth()->guard('utilisateur')->user()->can('gerer utilisateur'))
+                                <a class="dropdown-item" href="{{url('/ajouter_utilisateur')}}">Utilisateur</a>
+                                @endif
+                                @if (auth()->guard('utilisateur')->user()->can('gerer role'))
+                                <a class="dropdown-item" href="{{url('/ajouter_role')}}">R&ocirc;le</a>
+                                @endif
                             </div>
                         </li>
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-                        <li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
+                        <!-- <li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
                             <form class="app-search position-absolute">
                                 <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
                             </form>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right side toggle and nav items -->
