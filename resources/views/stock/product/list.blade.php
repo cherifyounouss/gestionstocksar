@@ -37,7 +37,6 @@
                     <th><b>Nom Produit</b></th>
                     <th><b>Criticit&eacute;</b></th>
                     <th><b>Solvant</b></th>
-                    <th><b>Date de p&eacute;remption</b></th>
                     <th><b>Quantit&eacute; en stock</b></th>
                     <th><b>Quantite alerte</b></th>
                     <th><b>Location</b></th>
@@ -59,7 +58,6 @@
                         Non
                         @endif
                     </td>
-                    <td>{{$produit->date_peremption}}</td>
                     <td>{{$produit->qte_stock}} {{$produit->unite}}</td>
                     <td>{{$produit->qte_min}} {{$produit->unite}}</td>
                     <td>{{$produit->etagere}} {{$produit->casier}}</td>
@@ -69,11 +67,14 @@
                     <td>{{$produit->date_exp_fds}}</td>
                     <td>
                         {{--  On transmet l'id du fournisseur a modifier au controlleur via l'url  --}}
+                        @if (auth()->guard('utilisateur')->user()->can('modifier produit'))
                         <form style="display: inline" action="{{url('/stock/modifier_produit', $produit->id)}}">
                             <button type="submit" class="btn btn-cyan btn-sm">Modifier</button>
                         </form>
-                        <input type="hidden">
+                        @endif
+                        @if (auth()->guard('utilisateur')->user()->can('supprimer produit'))
                         <button type="button" onclick="supprimer({{ $produit->id}})" class="btn btn-danger btn_delete btn-sm" data-toggle="modal">Supprimer</button>
+                        @endif
                     </td>                  
                 </tr>
                 @endforeach
@@ -84,7 +85,6 @@
                     <th><b>Nom Produit</b></th>
                     <th><b>Criticit&eacute;</b></th>
                     <th><b>Solvant</b></th>
-                    <th><b>Date de p&eacute;remption</b></th>
                     <th><b>Quantit&eacute; en stock</b></th>
                     <th><b>Quantite alerte</b></th>
                     <th><b>Location</b></th>
