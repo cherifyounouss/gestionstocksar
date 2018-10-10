@@ -67,6 +67,8 @@ class ApprovisionnementController extends BaseController
             $approvision->total = $data['total'];
             $date_appr = DateTime::createFromFormat('d/m/Y', $data['date_approvision']);
             $approvision->date_appr = $date_appr->format('Y-m-d');
+            $date_peremption = DateTime::createFromFormat('d/m/Y', $data['date_peremption']);
+            $approvision->date_peremption = $date_peremption->format('Y-m-d');
             $approvision->save();
             //On augmente le stock actuel
             $produit->qte_stock+=$data['total'];
@@ -127,12 +129,14 @@ class ApprovisionnementController extends BaseController
     public function liste_appro_date(Request $request){
 
         $data = $request->all();
-        $date_appr = DateTime::createFromFormat('d/m/Y', $data['date_appr']);
-        // $date_appr = Carbon::parse(date($date_appr))->format('Y-m-d');
-        $date_appr = $date_appr->format('Y-m-d');
+        $date_debut = DateTime::createFromFormat('d/m/Y', $data['date_debut']);
+        $date_fin = DateTime::createFromFormat('d/m/Y', $data['date_fin']);
+        $date_debut = $date_debut->format('Y-m-d');
+        $date_fin = $date_fin->format('Y-m-d');
+        $produit = $data['produit'];
         $response = '';
         //On verifie s'il existe des approvisionnements a la date choisis par l'utilisateur
-        if($approvisionnements = Approvisionnement::whereDate('date_appr', '=', $date_appr)->get()){
+        if($approvisionnements = Approvisionnement::whereDate('date_appr', '>=', $date_debut)->whereDate('date_appr', '<=', $date_fin)->where('produit',$produit)->get()){
             $response = '';
             foreach ($approvisionnements as $approvision) {
 
@@ -153,6 +157,7 @@ class ApprovisionnementController extends BaseController
                                 <td>'.$approvision->qte_cond.'</td>
                                 <td>'.$approvision->total.'</td>
                                 <td>'.$approvision->nom_fournisseur.'</td>
+                                <td>'.$approvision->date_peremption.'</td>
                             </tr>
                 ';
             }
