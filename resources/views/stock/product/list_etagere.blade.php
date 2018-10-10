@@ -36,7 +36,6 @@
                 <tr>
                     <th><b>Id</b></th>
                     <th><b>Nom Produit</b></th>
-                    <th><b>Date de p&eacute;remption</b></th>
                     <th><b>Quantit&eacute; en stock</b></th>
                     <th><b>Quantite alerte</b></th>
                     <th><b>Etat</b></th>
@@ -48,7 +47,6 @@
                 <tr>
                     <td>{{$produit->id}}</td>
                     <td>{{$produit->nom_produit}}</td>
-                    <td>{{$produit->date_peremption}}</td>
                     <td>{{$produit->qte_stock}} {{$produit->unite}}</td>
                     <td>{{$produit->qte_min}} {{$produit->unite}}</td>
                     <td>
@@ -68,7 +66,6 @@
                 <tr>
                     <th><b>Id</b></th>
                     <th><b>Nom Produit</b></th>
-                    <th><b>Date de p&eacute;remption</b></th>
                     <th><b>Quantit&eacute; en stock</b></th>
                     <th><b>Quantite alerte</b></th>
                     <th><b>Etat</b></th>
