@@ -45,13 +45,38 @@
                     <td>{{$role->name}}</td>
                     <td>
                         {{--  On transmet l'id de l'etagere a modifier au controlleur via l'url  --}}
-                        <button type="button" class="btn btn-info btn-sm">Voir</button>
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#Modal{{ $role->id}}">Voir</button>
                         <form action="{{url('/modifier_role', $role->id)}}" style="display: inline;">
                             <button type="submit" class="btn btn-cyan btn-sm">Modifier</button>
                         </form>
                         <button type="button" onclick="supprimer_role({{ $role->id}})" id="btn_delete" class="btn btn-danger btn_delete btn-sm" data-toggle="modal">Supprimer</button>
                     </td>                  
                 </tr>
+                <div class="modal fade" id="Modal{{ $role->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true ">
+                    <div class="modal-dialog" role="document ">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Informations r&ocirc;le</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true ">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    <h6>Nom r&ocirc;le</h6>
+                                    {{ $role->name}}
+                                </p>
+                                <p>
+                                    <h6>Permissions</h6>
+                                    @foreach ($role->permissions->pluck('name') as $permission)
+                                        <p>
+                                        -> {{ $permission}}
+                                        </p>
+                                    @endforeach
+                                </p>
+                        </div>
+                    </div>
+                </div>    
                 @endforeach
             </tbody>
             <tfoot>
