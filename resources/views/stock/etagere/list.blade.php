@@ -45,14 +45,14 @@
                     <td>{{$etagere->nbCasiers}}</td>
                     <td>
                         {{--  On transmet l'id de l'etagere a modifier au controlleur via l'url  --}}
-                        @can ('modifier etagere')
+                        @if (auth()->guard('utilisateur')->user()->can('modifier etagere'))
                         <form action="{{url('/stock/modifier_etagere',$etagere->id)}}" style="display: inline;">
                             <button type="submit" class="btn btn-cyan btn-sm">Modifier</button>
                         </form>
-                        @endcan
-                        @can ('supprimer etagere')
+                        @endif
+                        @if (auth()->guard('utilisateur')->user()->can('supprimer etagere'))
                         <button type="button" onclick="supprimer_etagere({{ $etagere->id}})" id="btn_delete" class="btn btn-danger btn_delete btn-sm" data-toggle="modal">Supprimer</button>
-                        @endcan
+                        @endif
                     </td>                  
                 </tr>
                 @endforeach
