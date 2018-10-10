@@ -15,6 +15,8 @@ use Carbon\Carbon;
 use Response;
 //DateTime pour manipuler les dates
 use DateTime;
+use App\Approvisionnement;
+
 class ProductController extends BaseController
 {
 
@@ -32,8 +34,8 @@ class ProductController extends BaseController
         $produits = Produit::all();
         //On change le format des dates en jj/mm/aa
         foreach ($produits as $produit) {
-            $date_peremption = DateTime::createFromFormat('Y-m-d',$produit->date_peremption);
-            $produit->date_peremption = $date_peremption->format('d-m-Y');
+            // $date_peremption = DateTime::createFromFormat('Y-m-d',$produit->date_peremption);
+            // $produit->date_peremption = $date_peremption->format('d-m-Y');
             $date_exp_fds = DateTime::createFromFormat('Y-m-d',$produit->date_exp_fds);
             $produit->date_exp_fds = $date_exp_fds->format('d-m-Y');
         }
@@ -69,10 +71,8 @@ class ProductController extends BaseController
         $produit->nom_produit = $data['nom_produit'];
         $produit->est_solvant = $data['solvant'];
         $produit->criticite = $data['criticite'];
-        $date_peremption = DateTime::createFromFormat('d/m/Y', $data['date_peremption']);
-        // $produit->date_peremption = Carbon::parse(date($data['date_peremption']))->format('Y-m-d');
-        $produit->date_peremption = $date_peremption->format('Y-m-d');
-        $produit->qte_stock = $data['qte_stock'];
+        // $date_peremption = DateTime::createFromFormat('d/m/Y', $data['date_peremption']);
+        // $produit->date_peremption = $date_peremption->format('Y-m-d');
         $produit->qte_min = $data['qte_min'];
         $produit->unite = $data['unite'];
         $produit->etagere = $data['etagere'];
@@ -85,9 +85,11 @@ class ProductController extends BaseController
         if($file = $request->hasFile('fds')){
             $file = $request->file('fds');
             $extension = $file->getClientOriginalExtension();
+            //Génèration d'un nom de fichier aléatoire
             $nom_fichier = rand(111,99999).'.'.$extension;
             // $nom_fichier = $file->getClientOriginalName();
             $destination = public_path()."/fds/";
+            //On déplace le fichier vers le serveur : dossier fds
             $file->move($destination, $nom_fichier);
             $produit->fds = $nom_fichier;
         }
@@ -119,8 +121,6 @@ class ProductController extends BaseController
     {
         $produit = Produit::findOrFail($id);
         $produit = json_decode($produit);
-        $date_peremption = DateTime::createFromFormat('Y-m-d',$produit->date_peremption);
-        $produit->date_peremption = $date_peremption->format('d/m/Y');
         $date_exp_fds = DateTime::createFromFormat('Y-m-d',$produit->date_exp_fds);
         $produit->date_exp_fds = $date_exp_fds->format('d/m/Y');
         // $produit->date_peremption = DateTime::format('d-m-Y', $produit->date_peremption);
@@ -146,11 +146,8 @@ class ProductController extends BaseController
         $produit->nom_produit = $data['nom_produit'];
         $produit->est_solvant = $data['solvant'];
         $produit->criticite = $data['criticite'];
-        $date_peremption = DateTime::createFromFormat('d/m/Y', $data['date_peremption']);
-        $produit->date_peremption = $date_peremption->format('Y-m-d');
         $date_exp_fds = DateTime::createFromFormat('d/m/Y',$data['date_exp_fds']);
         $produit->date_exp_fds = $date_exp_fds->format('Y-m-d');
-        $produit->qte_stock = $data['qte_stock'];
         $produit->qte_min = $data['qte_min'];
         $produit->unite = $data['unite'];
         $produit->etagere = $data['etagere'];
@@ -200,8 +197,6 @@ class ProductController extends BaseController
         $produits = Produit::where('etagere',$id)->get();
             //On change le format des dates en jj/mm/aa
             foreach ($produits as $produit) {
-                $date_peremption = DateTime::createFromFormat('Y-m-d',$produit->date_peremption);
-                $produit->date_peremption = $date_peremption->format('d-m-Y');
                 $date_exp_fds = DateTime::createFromFormat('Y-m-d',$produit->date_exp_fds);
                 $produit->date_exp_fds = $date_exp_fds->format('d-m-Y');
             }
@@ -229,18 +224,21 @@ class ProductController extends BaseController
     }
 
     public function get_alerte_date_prmtion(){
-        // $datetime1 = Carbon::now();
-        // $datetime2 = Carbon::yesterday();
-        // echo $datetime1->diffInWeeks($datetime2);
+        $datetime1 = Carbon::now();
+        $datetime2 = Carbon::yesterday();
+        echo $datetime1->diffInWeeks($datetime2);
         $today = Carbon::now();
-        $produits = Produit::all();
+        $approvisionnements = Approvisionnement::all();
+        // $produits = Produit::all();
         $produits_per = array();
-        foreach ($produits as $produit) {
-            $date_peremption = Carbon::createFromFormat('Y-m-d', $produit->date_peremption);
-            //Les produits dont la date de peremption est dans deux semaines
-            if ($date_peremption->diffInWeeks($today) <= 2){
-                $produit->intervalle = $date_peremption->diffInWeeks($today);
-                $produits_per[] = $produit;
+        foreach ($approvisionnements as $approvisionnement) {
+            $date_peremption = Carbon::createFromFormat('Y-m-d', $approvisionnement->date_peremption);
+            $produit = Produit::findOrFail($approvisionnement->produit);
+            //Les produits dont la date de peremption est dans moins de 8 semaines
+            if ($date_peremption->diffInWeeks($today) <= 8){
+                $approvisionnement->intervalle = $date_peremption->diffInWeeks($today);
+                $approvisionnement->nom_produit = $produit->nom_produit;
+                $produits_per[] = $approvisionnement;
             }
             //end of if
         }
