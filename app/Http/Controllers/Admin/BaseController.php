@@ -9,12 +9,14 @@ use App\Produit;
 use View;
 use DateTime;
 use Carbon\Carbon;
+use App\Approvisionnement;
 
 class BaseController extends Controller
 {
     public function __construct()
     {
       $produits = Produit::all();
+      $approvisionnements = Approvisionnement::all();
       //tableau pour stocker les produits en voie de rupture
       $produits_en_rupt = array();
       //tableau pour stocker les produits en voie de peremption
@@ -27,13 +29,24 @@ class BaseController extends Controller
           if($produit->qte_min >= $produit->qte_stock){
               $produits_en_rupt[] = $produit;
           }
-          $date_peremption = Carbon::createFromFormat('Y-m-d', $produit->date_peremption);
-          //Les produits dont la date de peremption est dans deux semaines
-          if ($date_peremption->diffInWeeks($today) <= 2){
-              $produit->intervalle = $date_peremption->diffInWeeks($today);
-              $produits_en_per[] = $produit;
-          }
+        //   $date_peremption = Carbon::createFromFormat('Y-m-d', $produit->date_peremption);
+        //   //Les produits dont la date de peremption est dans deux semaines
+        //   if ($date_peremption->diffInWeeks($today) <= 2){
+        //       $produit->intervalle = $date_peremption->diffInWeeks($today);
+        //       $produits_en_per[] = $produit;
+        //   }
       }
+
+      foreach ($approvisionnements as $approvisionnement) {
+        $date_peremption = Carbon::createFromFormat('Y-m-d', $approvisionnement->date_peremption);
+        $produit = Produit::findOrFail($approvisionnement->produit);
+        //Les produits dont la date de peremption est dans moins de 8 semaines
+        if ($date_peremption->diffInWeeks($today) <= 8){
+            $produits_en_per[] = $approvisionnement;
+        }
+        //end of if
+    }
+
       //nombres d'alertes total = nombre d'alertes pour rupture de stock + nombre d'alerte pour date de preemption
       $nb_alertes = count($produits_en_per) + count($produits_en_rupt);
 
