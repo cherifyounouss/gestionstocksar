@@ -67,21 +67,6 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 text-right control-label col-form-label">Date de peremption</label>
-                    <div class="input-group col-sm-9">
-                        <input type="text" class="form-control" id="datepicker-autoclose" name="date_peremption" value="{{ old('date_peremption',$produit->date_peremption)}}" placeholder="jj/mm/aaaa" required>
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="qte_stock" class="col-sm-3 text-right control-label col-form-label">Quantit&eacute; actuellement en stock</label>
-                    <div class="col-sm-9">
-                        <input type="number" class="form-control" min="0" step="0.01" id="qte_stock" value="{{ old('qte_stock', $produit->qte_stock)}}" name="qte_stock" placeholder="0000.00" required>
-                    </div>
-                </div>
-                <div class="form-group row">
                     <label for="qte_min" class="col-sm-3 text-right control-label col-form-label">Quantit&eacute; minimale dalerte</label>
                     <div class="col-sm-9">
                         <input type="number" class="form-control" min="0" step="0.01" id="qte_min" value="{{ old('qte_min', $produit->qte_min)}}" name="qte_min" placeholder="0000.00" required>
@@ -182,11 +167,6 @@
     //***********************************//
     $(".select2").select2();
     /*datepicker*/
-    jQuery('#datepicker-autoclose').datepicker({
-        format: 'dd/mm/yyyy',
-        autoclose: true,
-        todayHighlight: true
-    });
     $("#date_exp_fds").datepicker({
         format: 'dd/mm/yyyy',
         autoclose: true,
