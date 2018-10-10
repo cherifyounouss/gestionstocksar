@@ -48,15 +48,14 @@
                     <td>{{$fournisseur->adresse_fournisseur}}</td>
                     <td>{{$fournisseur->num_tel}}</td>
                     <td>
-                        @can ('modifier fournisseur')
-                        {{--  On transmet l'id du fournisseur a modifier au controlleur via l'url  --}}
+                        @if (auth()->guard('utilisateur')->user()->can('modifier fournisseur'))
                         <form action="{{url('/modifier_fournisseur',$fournisseur->id)}}" style="display: inline">
                             <button type="submit" class="btn btn-cyan btn-sm">Modifier</button>
                         </form>
-                        @endcan
-                        @can ('supprimer fournisseur')
+                        @endif
+                        @if (auth()->guard('utilisateur')->user()->can('supprimer fournisseur'))
                         <button type="button" onclick="test({{ $fournisseur->id}})" class="btn btn-danger btn_delete btn-sm" data-toggle="modal">Supprimer</button>
-                        @endcan
+                        @endif
                     </td>                  
                 </tr>
                 @endforeach
