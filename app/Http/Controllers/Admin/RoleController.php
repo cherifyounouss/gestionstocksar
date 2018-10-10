@@ -20,7 +20,7 @@ class RoleController extends BaseController
      */
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'admin')->get();
         return view('role.list')->with(compact('roles'));
     }
 
@@ -31,7 +31,8 @@ class RoleController extends BaseController
      */
     public function create()
     {
-        $permissions = Permission::all();
+        //Les permissions gerer role et gerer utilisateur ne peuvent pas etre donné a un nouvel utilisateur
+        $permissions = Permission::where('name', '!=', 'gerer role')->where('name', '!=', 'gerer utilisateur')->get();
         return view('role.new')->with(compact('permissions'));
     }
 
@@ -90,7 +91,7 @@ class RoleController extends BaseController
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        $permissions = Permission::all();
+        $permissions = Permission::where('name', '!=', 'gerer role')->where('name', '!=', 'gerer utilisateur')->get();        
         return view('role.edit')->with(compact('role','permissions'));
     }
 
