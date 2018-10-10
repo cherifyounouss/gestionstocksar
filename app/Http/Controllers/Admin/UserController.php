@@ -30,7 +30,7 @@ class UserController extends BaseController
      */
     public function create()
     {
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'admin')->get();
         return view('user.new')->with(compact('roles'));
     }
 
@@ -63,7 +63,7 @@ class UserController extends BaseController
         }
 
         $successMessage = 'Un nouvel utilisateur a été enregistré';
-        echo "Saved without issues";
+        return redirect('/liste_utilisateur')->with('successMessage', $successMessage);
         die;
     }
 
@@ -98,9 +98,31 @@ class UserController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        $request->validated();
+        $utilisateur = Utilisateur::findOrFail($id);
+        $data = $request->all();
+        $utilisateur->prenom = $data['prenom'];
+        $utilisateur->nom = $data['nom'];
+        $utilisateur->email = $data['email'];
+        $utilisateur->password = bcrypt($data['password']);
+        $utilisateur->save();
+        $roles = $data['roles'];
+        $tab_role = array();
+        // $r_all = Role::all();
+
+        foreach ($roles as $role) {
+            $r = Role::where('id', '=', $role)->firstOrFail();
+            $tab_role[] = $r;
+            $permissions = $r->permissions()->get();
+            $utilisateur->givePermissionTo($permissions);
+        }
+        // All current roles will be removed from the user and replaced by the array given
+        $utilisateur->syncRoles($tab_role);
+        $successMessage = 'Les modifications ont été enregistrées';
+        return redirect('/liste_utilisateur')->with('successMessage', $successMessage);
+        die;
     }
 
     /**
